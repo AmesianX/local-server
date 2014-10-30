@@ -1,0 +1,27 @@
+web:
+  image: schickling/sub2home-server:development
+  command: supervisord -n -c /etc/supervisor/supervisord.conf
+  links:
+   - db
+   - mailcatcher
+  ports:
+   - "1060:1060"
+   - "1070:1070"
+   - "1081:1081"
+   - "1082:1082"
+  volumes:
+   - server:/var/www/server
+   - static-content:/var/www/static-content
+db:
+  image: mysql:5.6
+  ports:
+   - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: sub2home
+    MYSQL_USER: sub2home
+    MYSQL_PASSWORD: sub2home
+    MYSQL_DATABASE: sub2home
+mailcatcher:
+  image: schickling/mailcatcher
+  ports:
+   - "1080:1080"
